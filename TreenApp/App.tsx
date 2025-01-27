@@ -142,13 +142,14 @@ import NicknameCheckScreen from './src/pages/NicknameCheckScreen'; // 회원가�
 import CompleteSignupScreen from './src/pages/CompleteSignupScreen'; // 회원가입 완료 화면
 import ExchangeProductDetailScreen from './src/pages/ExchangeProductDetailScreen'; // 교환 상품 상세 화면
 import ProfileEditScreen from './src/pages/ProfileEditScreen'; // 프로필 수정 화면
+import ChatScreen from './src/pages/ChatScreen'; // 채팅 화면
 
 const Stack = createStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Chat">
         <Stack.Screen 
           name="Login" 
           component={LoginScreen} 
@@ -361,6 +362,22 @@ function App() {
             ),
             headerTitleAlign: 'center', 
           })}
+        />
+        <Stack.Screen
+          name="Chat"
+          component={ChatScreen}
+          // options={({ navigation }) => ({
+            // title: '프로필 변경', 
+            // headerLeft: () => (
+            //   <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingHorizontal: 10 }}>
+            //     <Icon name="arrow-back" size={24} color="black" />
+            //   </TouchableOpacity>
+            // ),
+            // headerTitleAlign: 'center', 
+          // })}
+          options={{
+            headerShown: false, // 상단 헤더를 숨기기
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
