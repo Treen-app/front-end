@@ -1,22 +1,115 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, TextInput, Keyboard, TouchableWithoutFeedback, ScrollView } from "react-native";
+import { View, 
+  Text, 
+  Image, 
+  TouchableOpacity, 
+  TextInput, 
+  Keyboard, 
+  TouchableWithoutFeedback, 
+  ScrollView,
+  Modal,
+  Button
+} from "react-native";
 import styles from "../styles/ChatScreenStyles"; // 스타일 파일 임포트
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import SatisfactionModal from "./SatisfactionModal";
 
 const ChatScreen = () => {
   const [message, setMessage] = useState("");
   const [isFocused, setIsFocused] = useState(false); 
+  const [endModalVisible, setEndModalVisible] = useState(false);
+  const [firstModalVisible, setFirstModalVisible] = useState(false);
+  const [satisfactionModalVisible, setSatisfactionModalVisible] = useState(false);
+
 
   // 화면 전체를 감싸는 터치 영역에서 키보드 닫기
   const dismissKeyboard = () => {
     Keyboard.dismiss();
   };
+
+  const openFirstModal = () => setFirstModalVisible(true);
+  const closeFirstModal = () => setFirstModalVisible(false);
+
+  const openEndModal = () => setEndModalVisible(true);
+  const closeEndModal = () => setEndModalVisible(false);
+
+  const closeSatisfactionModal = () => {
+    setSatisfactionModalVisible(false);
+    setEndModalVisible(true); // 만족도 모달 닫고 트린 지급 완료 모달 열기
+  };
   
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <View style={{ flex: 1, backgroundColor:"white"}}>
+
+        {/* 버튼으로 첫 번째 모달 열기 */}
+        {/* <Button title="거래 완료"  onPress={openFirstModal}  /> */}
+
+        {/* 거래 완료 확인 모달 */}
+        <Modal visible={firstModalVisible} transparent animationType="slide">
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.confirmTitle}>거래를 완료할까요?</Text>
+              <Text style={styles.infoMessage}>
+                *물건 수령 후 거래 완료를 권장해요.
+              </Text>
+              <Text style={styles.infoMessage}>
+                *거래 완료시 트린 지급
+              </Text>
+              <View style={styles.buttonContainer}>
+                {/* 취소 버튼 */}
+                <TouchableOpacity
+                  style={[styles.cancelButton]} // 스타일 적용
+                  onPress={closeFirstModal}
+                >
+                  <Text style={[styles.cancelText]}>취소</Text> {/* 텍스트 스타일 적용 */}
+                </TouchableOpacity>
+
+                {/* 완료 버튼 */}
+                <TouchableOpacity
+                  style={styles.confirmButton} // 스타일 적용
+                  onPress={() => {
+                    closeFirstModal();
+                    setSatisfactionModalVisible(true);
+                  }}
+                >
+                  <Text style={styles.buttonText}>완료</Text> {/* 텍스트 스타일 적용 */}
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+        {/* 만족도 모달 */}
+        <SatisfactionModal
+          visible={satisfactionModalVisible}
+          onClose={closeSatisfactionModal} // 만족도 모달 닫기
+        />
+
+        {/* 트린 지급 완료 모달 */}
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={endModalVisible}
+          onRequestClose={closeEndModal} // Android에서 Back 버튼 처리
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalTitle}>거래완료! 100트린 지급</Text>
+              <Text style={styles.modalMessage}>
+                거래 축하 보너스 트린을 지급받았어요.
+              </Text>
+              <Text style={[styles.modalMessage, {fontSize: 25}]}>
+                🎉
+              </Text>
+              <TouchableOpacity onPress={closeEndModal} style={styles.closeButton}>
+                <Text style={styles.closeButtonText}>확인</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
           {/* Header */}
           <View style={styles.header}>
               <TouchableOpacity>
@@ -77,7 +170,7 @@ const ChatScreen = () => {
         </ScrollView>
 
         {/* 예약하기 버튼 */}
-        <TouchableOpacity style={styles.reserveButton}>
+        <TouchableOpacity style={styles.reserveButton} onPress={() => setFirstModalVisible(true)}>
           <Text style={styles.reserveButtonText}>예약하기</Text>
         </TouchableOpacity>
 
@@ -126,6 +219,7 @@ const ChatScreen = () => {
         </View>
       </View>
     </TouchableWithoutFeedback>
+    
   );
 };
 

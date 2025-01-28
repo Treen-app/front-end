@@ -183,6 +183,95 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 25,
   },
+
+
+  // 취소,완료 버튼
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: 35,
+  },
+  confirmTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    marginTop: 10
+  },
+  infoMessage: {
+    color: "#999999",
+    marginTop: 5,
+  },
+  confirmButton: {
+    backgroundColor: 'white',
+    borderWidth: 0.5,
+    borderColor: "#04AD45",
+    width: '50%',
+    paddingVertical: 15,
+    borderBottomRightRadius: 10,
+  },
+  cancelButton: {
+    backgroundColor: '#DBDBDB',
+    width: '50%',
+    paddingVertical: 15,
+    borderBottomLeftRadius: 10,
+  },
+  buttonText: {
+    color: "#04AD45",
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  cancelText: {
+    color: 'white', 
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+
+  // 트린 지급 완료 모달
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)', // 반투명 배경
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    width: '70%',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    paddingTop: 25,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  modalMessage: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 20,
+    color: "#04AD45"
+  },
+  closeButton: {
+    backgroundColor: '#04AD45',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    width: "100%",
+  },
+  closeButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 14,
+    textAlign: 'center',
+  },
 });
 
 export default styles;
