@@ -1,0 +1,19 @@
+{
+  "detectedConfig": {
+    "typescript": false,
+    "naming": "Pascal Case",
+    "unit": "em",
+    "framework": "react",
+    "styling": "'Inline Styles"
+  },
+  "locofyConfig": {
+    "project": "\bproject",
+    "id": "2ryS5gfeEqBL3Tl2OVlBHFrXKSK",
+    "framework": "react-native",
+    "typescript": false,
+    "project_environment": "react_native_cli",
+    "path": "assets/",
+    "componentsPath": "/Users/hellograce3/Desktop/trin_FE/trin_FE/src/components",
+    "screensPath": "/Users/hellograce3/Desktop/trin_FE/trin_FE/src/pages"
+  }
+}
