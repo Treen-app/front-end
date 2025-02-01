@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, TextInput } from 'react-native';
 
 interface SatisfactionModalProps {
   visible: boolean;
@@ -9,6 +9,7 @@ interface SatisfactionModalProps {
 const SatisfactionModal: React.FC<SatisfactionModalProps> = ({ visible, onClose }) => {
   const [selectedResponse, setSelectedResponse] = useState<null | keyof typeof responses>(null);
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
+  const [additionalFeedback, setAdditionalFeedback] = useState<string>(''); 
 
   const responses: {
     최고예요: string[];
@@ -81,6 +82,15 @@ const SatisfactionModal: React.FC<SatisfactionModalProps> = ({ visible, onClose 
                       </TouchableOpacity>
                     ))}
                     </View>
+                    {/* 주관식 입력란 */}
+                    <Text style={[styles.subtitle, { marginTop: 20 }]}>남기고 싶은 한 마디 (선택 응답)</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      placeholder="자유롭게 작성해주세요."
+                      multiline={true}
+                      value={additionalFeedback}
+                      onChangeText={setAdditionalFeedback}
+                    />
                 </View>
                 )}
                 
@@ -98,7 +108,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 15,
     paddingHorizontal: 24
   },
   buttonContainer: {
@@ -135,7 +145,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 14,
-    marginBottom: 20,
+    marginBottom: 15,
     color: "#767676",
   },
   keywords: {
@@ -145,7 +155,16 @@ const styles = StyleSheet.create({
   },
 
 
-
+  textInput: {
+    borderRadius: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    width: '100%',
+    minHeight: 80,
+    fontSize: 14,
+    textAlignVertical: 'top', 
+    backgroundColor: "#F1F1F1",
+  },
 
 
   modalOverlay: {
@@ -182,7 +201,7 @@ const styles = StyleSheet.create({
   closeButtonText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 16,
     textAlign: 'center',
   },
 });
