@@ -86,7 +86,7 @@ const SatisfactionModal: React.FC<SatisfactionModalProps> = ({ visible, onClose 
                     <Text style={[styles.subtitle, { marginTop: 20 }]}>남기고 싶은 한 마디 (선택 응답)</Text>
                     <TextInput
                       style={styles.textInput}
-                      placeholder="자유롭게 작성해주세요."
+                      placeholder="회원님과의 거래 경험을 구체적으로 작성해주시면 더 나은 서비스 제공에 참고하겠습니다. (최대 300자)"
                       multiline={true}
                       value={additionalFeedback}
                       onChangeText={setAdditionalFeedback}
@@ -158,10 +158,10 @@ const styles = StyleSheet.create({
   textInput: {
     borderRadius: 10,
     paddingVertical: 15,
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     width: '100%',
     minHeight: 80,
-    fontSize: 14,
+    fontSize: 12,
     textAlignVertical: 'top', 
     backgroundColor: "#F1F1F1",
   },
