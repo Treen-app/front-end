@@ -126,6 +126,7 @@ import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import Feather from 'react-native-vector-icons/Feather';
 import LoginScreen from './src/pages/LoginScreen'; // 로그인 화면
 import FindIdScreen from './src/pages/FindIdScreen'; // 아이디 찾기 화면
 import ResetPasswordScreen from './src/pages/ResetPasswordScreen'; // 비밀번호 재설정 화면
@@ -149,25 +150,55 @@ const Stack = createStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Chat">
+      <Stack.Navigator initialRouteName="NicknameCheck">
         <Stack.Screen 
           name="Login" 
           component={LoginScreen} 
-          options={{ title: '로그인' }} 
+          options={{
+            headerShown: false, // 상단 헤더를 숨기기
+          }}
         />
         <Stack.Screen 
           name="FindId" 
           component={FindIdScreen} 
-          options={{ title: '아이디 찾기' }} 
+          options={({ navigation }) => ({
+            title: '아이디 찾기', 
+            headerStyle: {
+              elevation: 0, // Android에서 그림자 없애기
+              shadowOpacity: 0, // iOS에서 그림자 없애기
+              borderBottomWidth: 0, // 모든 플랫폼에서 선 제거
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingHorizontal: 10,}}>
+                <Icon name="arrow-back" size={24} color="black"/>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingHorizontal: 10 }}>
+                <Feather name="x" size={24} color="black" />
+              </TouchableOpacity>
+            ),
+            headerTitleAlign: 'center', // 타이틀 가운데 정렬
+          })}
         />
         <Stack.Screen
           name="ResetPassword"
           component={ResetPasswordScreen}
           options={({ navigation }) => ({
             title: '비밀번호 재설정', // 타이틀 설정
+            headerStyle: {
+              elevation: 0, // Android에서 그림자 없애기
+              shadowOpacity: 0, // iOS에서 그림자 없애기
+              borderBottomWidth: 0, // 모든 플랫폼에서 선 제거
+            },
             headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingHorizontal: 10,}}>
+                <Icon name="arrow-back" size={24} color="black"/>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
               <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingHorizontal: 10 }}>
-                <Icon name="arrow-back" size={24} color="black" />
+                <Feather name="x" size={24} color="black" />
               </TouchableOpacity>
             ),
             headerTitleAlign: 'center', // 타이틀 가운데 정렬
@@ -216,31 +247,31 @@ function App() {
               borderBottomWidth: 0, // 모든 플랫폼에서 선 제거
             },
             headerRight: () => (
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
-        {/* Search Icon */}
-        <TouchableOpacity 
-          onPress={() => {
-            console.log('Search button pressed');
-            // 검색 화면으로 이동
-            navigation.navigate('SearchScreen'); // 원하는 스크린으로 변경
-          }}
-        >
-          <AntDesign name="search1" size={22} style={{ marginRight: 16 }} />
-        </TouchableOpacity>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
+                {/* Search Icon */}
+                <TouchableOpacity 
+                  onPress={() => {
+                    console.log('Search button pressed');
+                    // 검색 화면으로 이동
+                    navigation.navigate('SearchScreen'); // 원하는 스크린으로 변경
+                  }}
+                >
+                  <AntDesign name="search1" size={22} style={{ marginRight: 16 }} />
+                </TouchableOpacity>
 
-        {/* Bell Icon */}
-        <TouchableOpacity 
-          onPress={() => {
-            console.log('Bell button pressed');
-            // 알림 화면으로 이동
-            navigation.navigate('NotificationScreen'); // 원하는 스크린으로 변경
-          }}
-        >
-          <SimpleLineIcons name="bell" size={22} />
-        </TouchableOpacity>
-      </View>
-    ),
-  })}        
+                {/* Bell Icon */}
+                <TouchableOpacity 
+                  onPress={() => {
+                    console.log('Bell button pressed');
+                    // 알림 화면으로 이동
+                    navigation.navigate('NotificationScreen'); // 원하는 스크린으로 변경
+                  }}
+                >
+                  <SimpleLineIcons name="bell" size={22} />
+                </TouchableOpacity>
+              </View>
+            ),
+          })}        
         />
         <Stack.Screen
           name="CheckPhoneNumber"

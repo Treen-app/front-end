@@ -52,6 +52,9 @@ const LoginScreen = () => {
   
    return (
     <View style={styles.container}>
+      <TouchableOpacity>
+        <Icon name="arrow-back" size={24} color="black" style={{marginTop: 40}} />
+      </TouchableOpacity>
       <Text style={styles.title}>
         <Text style={styles.greenText}>트린</Text>에 오신 것을{"\n"}환영합니다!
       </Text>
@@ -98,7 +101,13 @@ const LoginScreen = () => {
         <Image
           source={require('../img/google.png')} style={styles.googleIcon}
         />
-        <Icon name="mail-outline"color="#757575" size={40} style={styles.snsIcon} />
+        <View style={styles.mailIconContainer}>
+          <Icon 
+            name="mail-outline" 
+            color="white" 
+            size={25} 
+          />
+        </View>
       </View>
     </View>
   );
@@ -119,7 +128,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'left',
     marginBottom: 20,
-    marginTop: 30
+    marginTop: 50
   },
   greenText: {
     color: '#04AD45',
@@ -128,6 +137,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#A1A1A1',
     marginBottom: 55,
+  },
+  mailIconContainer: {
+    width: 40, 
+    height: 40,
+    borderRadius: 20, 
+    backgroundColor: '#AAAAAA',
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    marginHorizontal: 10,
   },
   input: {
     backgroundColor: '#F5F5F5',
@@ -138,7 +156,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     backgroundColor: '#04AD45',
-    borderRadius: 8,
+    borderRadius: 10,
     padding: 15,
     alignItems: 'center',
     marginBottom: 30,
@@ -156,25 +174,25 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontSize: 12,
-    color: '#A1A1A1',
+    color: '#5A5A5A',
     marginHorizontal: 5,
-    marginTop: 2
+    marginTop: 2,
   },
   linkTextSignIn: {
     fontSize: 12,
-    color: '#A1A1A1',
+    color: '#5A5A5A',
     marginHorizontal: 5,
     marginTop: 3
   },
   separator: {
     fontSize: 14,
-    color: '#A1A1A1',
+    color: '#C8C8C8',
   },
   snsText: {
     fontSize: 12,
     color: '#A1A1A1',
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: 18,
   },
   snsIconsContainer: {
     flexDirection: 'row',
