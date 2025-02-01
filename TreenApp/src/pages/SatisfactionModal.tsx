@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, TextInput } from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
 
 interface SatisfactionModalProps {
   visible: boolean;
@@ -98,6 +99,12 @@ const SatisfactionModal: React.FC<SatisfactionModalProps> = ({ visible, onClose 
                     <Text style={styles.closeButtonText}>후기 작성</Text>
                 </TouchableOpacity> 
             </View>
+
+            {/* 작성 취소 버튼 */}
+            {/* <TouchableOpacity onPress={onClose} style={styles.cancelButton}>
+                <Text style={styles.cancelText}>작성하지 않을게요</Text>
+                <Feather name="x-circle" size={10} style={{color: "#666666"}}></Feather>
+            </TouchableOpacity>  */}
         </View>
     </Modal>
   );
@@ -172,6 +179,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)', // 반투명 배경
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
   },
   modalContainer: {
     width: '90%',
@@ -183,6 +191,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    position: 'relative',
   },
   modalMessage: {
     fontSize: 14,
@@ -204,6 +213,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
+
+
+  // cancelButton: {
+  //   textAlign: 'right',
+  //   position: 'absolute',  // absolute로 위치를 조정
+  //   bottom: 20,            // 모달 오버레이의 하단에 20px 정도의 여백을 줌
+  //   right: 20,             // 모달 오버레이의 오른쪽 끝에 20px 여백
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   paddingVertical: 10,
+  //   paddingHorizontal: 15,
+  // },
+  // cancelText: {
+  //   color: '#666666',
+  //   fontSize: 10
+  // }
 });
 
 export default SatisfactionModal;
