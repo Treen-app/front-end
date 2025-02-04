@@ -140,6 +140,7 @@ import ConfirmDeletionScreen from './src/pages/ConfirmDeletionScreen'; // 회원
 import CompleteExitScreen from './src/pages/CompleteExitScreen'; // 회원 탈퇴 완료 페이지
 import IDCheckScreen from './src/pages/IDCheckScreen'; // 회원가입시 아이디 입력 화면
 import NicknameCheckScreen from './src/pages/NicknameCheckScreen'; // 회원가입시 닉네임 입력 화면
+import SignUpAgreeScreen from './src/pages/SignUpAgreeScreen'; // 회원가입시 닉네임 입력 화면
 import CompleteSignupScreen from './src/pages/CompleteSignupScreen'; // 회원가입 완료 화면
 import ExchangeProductDetailScreen from './src/pages/ExchangeProductDetailScreen'; // 교환 상품 상세 화면
 import ProfileEditScreen from './src/pages/ProfileEditScreen'; // 프로필 수정 화면
@@ -150,7 +151,7 @@ const Stack = createStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="NicknameCheck">
+      <Stack.Navigator initialRouteName="SignUpAgree">
         <Stack.Screen 
           name="Login" 
           component={LoginScreen} 
@@ -363,6 +364,29 @@ function App() {
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingHorizontal: 10 }}>
                 <Icon name="arrow-back" size={24} color="black" />
+              </TouchableOpacity>
+            ),
+            headerTitleAlign: 'center', 
+          })}
+        />
+        <Stack.Screen
+          name="SignUpAgree"
+          component={SignUpAgreeScreen}
+          options={({ navigation }) => ({
+            title: '회원가입', 
+            headerStyle: {
+              elevation: 0, // Android에서 그림자 없애기
+              shadowOpacity: 0, // iOS에서 그림자 없애기
+              borderBottomWidth: 0, // 모든 플랫폼에서 선 제거
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingHorizontal: 10,}}>
+                <Icon name="arrow-back" size={24} color="black"/>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingHorizontal: 10 }}>
+                <Feather name="x" size={24} color="black" />
               </TouchableOpacity>
             ),
             headerTitleAlign: 'center', 
