@@ -14,7 +14,7 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
-	<key>CFBundlePackageType</key>
+	<key>CFBundlePackageType</key>	
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
@@ -26,6 +26,34 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+
+
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kakao75e450226c8fd4dd19facc3577caeebb</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>KAKAO_APP_KEY</key>
+	<string>75e450226c8fd4dd19facc3577caeebb</string>
+	<!-- <key>KAKAO_APP_SCHEME</key>  -->
+	<!-- <string>{카카오 앱 스킴을 적어주세요}</string>  -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>kakao0123456789</string>
+		<string>kakaokompassauth</string>
+		<string>storykompassauth</string>
+		<string>kakaolink</string>
+	</array>
+
+
 	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>

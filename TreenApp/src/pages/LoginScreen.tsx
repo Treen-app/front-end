@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { WebView,  WebViewNavigation } from 'react-native-webview';
 
 // const Naver = () => {
 //     const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID; // 발급받은 클라이언트 아이디
@@ -16,8 +17,25 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 // };
 
 const LoginScreen = () => {
+  const [showWebView, setShowWebView] = useState(false);
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=188b142dcd4939b3fceb9cbef82edfd7&redirect_uri=http://localhost:8080/login/oauth2/kakao`;
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleNavigationStateChange = (event: WebViewNavigation) => {
+    if (event.url.includes('http://localhost:8080/login/oauth2/kakao')) {
+      const codeMatch = event.url.match(/code=([^&]*)/);
+      if (codeMatch) {
+        const code = codeMatch[1];
+        setShowWebView(false); // WebView 닫기
+        Alert.alert('로그인 성공', `Authorization Code: ${code}`);
+        
+        // 인증 성공 후 홈 화면으로 이동
+        // navigation.navigate('Home');     
+      }
+    }
+  };
 
   // 로그인 버튼 클릭 시 실행
   const handleLogin = async () => {
@@ -92,9 +110,9 @@ const LoginScreen = () => {
       <Text style={styles.snsText}>SNS 간편로그인</Text>
 
       <View style={styles.snsIconsContainer}>
-        <Image
-          source={require('../img/kakaotalk.png')} style={styles.snsIcon}
-        />
+        <TouchableOpacity onPress={handleNavigationStateChange}>
+          <Image source={require('../img/kakaotalk.png')} style={styles.snsIcon} />
+        </TouchableOpacity>
         <Image
           source={require('../img/naver.png')} style={styles.snsIcon}
         />
