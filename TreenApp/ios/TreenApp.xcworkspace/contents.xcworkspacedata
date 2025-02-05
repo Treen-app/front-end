@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:SwiftBridge.swift">
+   </FileRef>
+   <FileRef
       location = "group:TreenApp.xcodeproj">
    </FileRef>
    <FileRef

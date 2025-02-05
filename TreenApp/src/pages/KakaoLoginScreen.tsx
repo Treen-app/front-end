@@ -1,114 +1,147 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { WebView, WebViewNavigation } from 'react-native-webview';
+// import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+// import React, { useState } from "react";
+// import {
+//   login,
+//   logout,
+//   getProfile as getKakaoProfile,
+//   shippingAddresses as getKakaoShippingAddresses,
+//   unlink,
+// } from "@react-native-seoul/kakao-login";
+
+// const KakaoLoginScreen = () => {
+//   const [result, setResult] = useState<string>("");
+
+//   const signInWithKakao = async (): Promise<void> => {
+//     try {
+//       const token = await login();
+//       setResult(JSON.stringify(token));
+//     } catch (err) {
+//       console.error("login err", err);
+//     }
+//   };
+
+//   const signOutWithKakao = async (): Promise<void> => {
+//     try {
+//       const message = await logout();
+
+//       setResult(message);
+//     } catch (err) {
+//       console.error("signOut error", err);
+//     }
+//   };
+
+//   const getProfile = async (): Promise<void> => {
+//     try {
+//       const profile = await getKakaoProfile();
+
+//       setResult(JSON.stringify(profile));
+//     } catch (err) {
+//       console.error("signOut error", err);
+//     }
+//   };
+
+//   const getShippingAddresses = async (): Promise<void> => {
+//     try {
+//       const shippingAddresses = await getKakaoShippingAddresses();
+
+//       setResult(JSON.stringify(shippingAddresses));
+//     } catch (err) {
+//       console.error("signOut error", err);
+//     }
+//   };
+
+//   const unlinkKakao = async (): Promise<void> => {
+//     try {
+//       const message = await unlink();
+
+//       setResult(message);
+//     } catch (err) {
+//       console.error("signOut error", err);
+//     }
+//   };
+
+//   return (
+//     <View style={styles.container}>
+//       <View style={styles.resultContainer}>
+//         <ScrollView>
+//           <Text>{result}</Text>
+//           <View style={{ height: 100 }} />
+//         </ScrollView>
+//       </View>
+//       <Pressable
+//         style={styles.button}
+//         onPress={() => {
+//           signInWithKakao();
+//         }}
+//       >
+//         <Text style={styles.text}>카카오 로그인</Text>
+//       </Pressable>
+//       <Pressable style={styles.button} onPress={() => getProfile()}>
+//         <Text style={styles.text}>프로필 조회</Text>
+//       </Pressable>
+//       <Pressable style={styles.button} onPress={() => getShippingAddresses()}>
+//         <Text style={styles.text}>배송주소록 조회</Text>
+//       </Pressable>
+//       <Pressable style={styles.button} onPress={() => unlinkKakao()}>
+//         <Text style={styles.text}>링크 해제</Text>
+//       </Pressable>
+//       <Pressable style={styles.button} onPress={() => signOutWithKakao()}>
+//         <Text style={styles.text}>카카오 로그아웃</Text>
+//       </Pressable>
+//     </View>
+//   );
+// };
+
+// export default KakaoLoginScreen;
+
+// const styles = StyleSheet.create({
+//   container: {
+//     height: "100%",
+//     justifyContent: "flex-end",
+//     alignItems: "center",
+//     paddingBottom: 100,
+//   },
+//   resultContainer: {
+//     flexDirection: "column",
+//     width: "100%",
+//     padding: 24,
+//   },
+//   button: {
+//     backgroundColor: "#FEE500",
+//     borderRadius: 40,
+//     borderWidth: 1,
+//     width: 250,
+//     height: 40,
+//     paddingHorizontal: 20,
+//     paddingVertical: 10,
+//     marginTop: 10,
+//   },
+//   text: {
+//     textAlign: "center",
+//   },
+// });
+
+
+
+
+
+import {KakaoOAuthToken, login} from '@react-native-seoul/kakao-login';
+import React from 'react';
+import {Button, View} from 'react-native';
 
 const KakaoLoginScreen = () => {
-  const [showWebView, setShowWebView] = useState(false);
-  const KAKAO_AUTH_URL =
-    'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=188b142dcd4939b3fceb9cbef82edfd7&redirect_uri=http://localhost:3000/login/oauth2/kakao&prompt=none';
+  const handleKakaoLogin = async () => {
+    const token: KakaoOAuthToken = await login();
 
-  // WebView URL 변경 감지
-  const handleNavigationStateChange = (event: WebViewNavigation) => {
-    if (event.url.includes('http://localhost:3000/login/oauth2/kakao')) {
-      const codeMatch = event.url.match(/code=([^&]*)/); // URL에서 'code' 파라미터 추출
-      if (codeMatch) {
-        const code = codeMatch[1];
-        setShowWebView(false); // WebView 닫기
-        Alert.alert('인가 코드 수신', `Code: ${code}`);
-
-        // Kakao 토큰 요청
-        fetchKakaoToken(code);
-      }
-    }
-  };
-
-  const fetchKakaoToken = async (code: string) => {
-    try {
-      const params = new URLSearchParams();
-      params.append('grant_type', 'authorization_code');
-      params.append('client_id', '188b142dcd4939b3fceb9cbef82edfd7');
-      params.append('redirect_uri', 'http://localhost:3000/login/oauth2/kakao');
-      params.append('code', code);
-
-      // Kakao 토큰 요청
-      const tokenResponse = await fetch('https://kauth.kakao.com/oauth/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' },
-        body: params.toString(),
-      });
-
-      if (!tokenResponse.ok) throw new Error('Kakao 토큰 요청 실패');
-      const tokenData = await tokenResponse.json();
-      console.log('Kakao 토큰 데이터:', tokenData);
-
-    //   // 백엔드에 로그인 요청
-    //   const backendResponse = await fetch('http://localhost:8080/login/oauth/kakao', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ accessToken: tokenData.access_token }),
-    //   });
-
-    //   if (!backendResponse.ok) throw new Error('백엔드 로그인 요청 실패');
-    //   const backendData = await backendResponse.json();
-    //   console.log('로그인 성공:', backendData);
-
-      // 로그인 성공 후 원하는 페이지로 이동
-    //   Alert.alert('로그인 성공', '홈 화면으로 이동합니다!');
-      // navigation.navigate('Home'); // React Navigation 사용 시
-    } catch (error) {
-      console.error('로그인 에러:', error);
-    //   Alert.alert('로그인 실패', error.message);
-    }
+    console.log('handleKakaoLogin', 'success', token);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Kakao 로그인</Text>
-
-      {!showWebView && (
-        <TouchableOpacity style={styles.button} onPress={() => setShowWebView(true)}>
-          <Text style={styles.buttonText}>Kakao 로그인</Text>
-        </TouchableOpacity>
-      )}
-
-      {showWebView && (
-        <WebView
-          source={{ uri: KAKAO_AUTH_URL }}
-          onNavigationStateChange={handleNavigationStateChange}
-          style={styles.webView}
-        />
-      )}
+    <View
+      style={{flex: 1, justifyContent: 'center'}}>
+      <Button title="카카오 로그인" onPress={handleKakaoLogin} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  button: {
-    backgroundColor: '#FEE500',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  webView: {
-    flex: 1,
-    width: '100%',
-  },
-});
-
-export default KakaoLoginScreen;
+export default KakaoLoginScreen ;
