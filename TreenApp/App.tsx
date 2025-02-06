@@ -145,14 +145,15 @@ import CompleteSignupScreen from './src/pages/CompleteSignupScreen'; // 회원�
 import ExchangeProductDetailScreen from './src/pages/ExchangeProductDetailScreen'; // 교환 상품 상세 화면
 import ProfileEditScreen from './src/pages/ProfileEditScreen'; // 프로필 수정 화면
 import ChatScreen from './src/pages/ChatScreen'; // 채팅 화면
-import KakaoLoginScreen from './src/pages/KakaoLoginScreen'; // 채팅 화면
+import KakaoLoginScreen from './src/pages/KakaoLoginScreen'; // 카카오로그인 화면
+import SearchScreen from './src/pages/SearchScreen'; // 카카오로그인 화면
 
 const Stack = createStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="KakaoLogin">
+      <Stack.Navigator initialRouteName="Search">
         <Stack.Screen 
           name="Login" 
           component={LoginScreen} 
@@ -441,6 +442,28 @@ function App() {
           options={{
             headerShown: false, // 상단 헤더를 숨기기
           }}
+        />
+        <Stack.Screen
+          name="Search"
+          component={SearchScreen}
+          options={({ navigation }) => ({
+            headerShown: false,
+            headerStyle: {
+              elevation: 0, // Android에서 그림자 없애기
+              shadowOpacity: 0, // iOS에서 그림자 없애기
+              borderBottomWidth: 0, // 모든 플랫폼에서 선 제거
+            },
+            // headerLeft: () => (
+            //   <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingHorizontal: 10,}}>
+            //     <Icon name="arrow-back" size={24} color="black"/>
+            //   </TouchableOpacity>
+            // ),
+            // headerRight: () => (
+            //   <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingHorizontal: 10 }}>
+            //     <Icon name="search" size={24} color="black" />
+            //   </TouchableOpacity>
+            // ),
+          })}
         />
       </Stack.Navigator>
     </NavigationContainer>
