@@ -153,7 +153,7 @@ const Stack = createStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Search">
+      <Stack.Navigator initialRouteName="KakaoLogin">
         <Stack.Screen 
           name="Login" 
           component={LoginScreen} 

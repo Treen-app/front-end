@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "query-string": "^9.1.1",
     "react-native-vector-icons": "^10.2.0"
   }
 }

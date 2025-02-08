@@ -11,7 +11,6 @@ const SearchScreen = () => {
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category === selectedCategory ? null : category);
-    setSearchText(category === selectedCategory ? "" : category);
   };
 
   const handleRemoveCategory = () => {
