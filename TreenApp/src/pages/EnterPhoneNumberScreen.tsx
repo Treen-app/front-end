@@ -8,12 +8,59 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import axios from 'axios';
+import type { StackNavigationProp } from '@react-navigation/stack';
+import { signUpStackParamList } from '../types/signUpNavigationTypes';  // RootStackParamList를 정의하여 Stack Param List를 관리
 
-const EnterPhoneNumberScreen = () => {
+type SignUpAgreeScreenNavigationProp = StackNavigationProp<signUpStackParamList, 'SignUpAgree'>;
+
+interface Props {
+  navigation: SignUpAgreeScreenNavigationProp;
+}
+const EnterPhoneNumberScreen: React.FC<Props> = ({ navigation }) => {
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [remainingTime, setRemainingTime] = useState(300); // 5분 타이머 (초 단위)
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
+
+  // 인증번호 요청
+  const sendSmsRequest = async () => {
+    try {
+      const requestPayload = {
+        phoneNum: phoneNumber, // 여기에 실제 전화번호를 넣어주세요.
+      };
+
+      const response = await axios.post('http://localhost:8080/api/auth/sms/send', requestPayload);
+
+      if (response.status === 200) {
+        setIsCodeSent(true);
+        console.log('인증번호 전송 성공');
+      }
+    } catch (error) {
+      console.error('인증번호 전송 실패', error);
+    }
+  };
+
+  // 인증번호 요청
+  const smsVertification = async () => {
+    try {
+      const requestPayload = {
+        phone: phoneNumber,
+        certificationNumber: verificationCode, 
+      };
+
+      const response = await axios.post('http://localhost:8080/api/auth/sms/confirm', requestPayload);
+
+      if (response.data === 'SMS_CERTIFICATION_SUCCESS') {
+        setIsCodeSent(true);
+        console.log('인증번호 확인 성공');
+        navigation.navigate('NicknameCheck', {phoneNumber});
+      }
+    } catch (error) {
+      console.error('인증번호 확인 실패', error);
+    }
+  };
+
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -56,7 +103,7 @@ const EnterPhoneNumberScreen = () => {
         />
         <TouchableOpacity
           style={styles.sendButton}
-          onPress={handleSendCode}
+          onPress={sendSmsRequest}
           disabled={!phoneNumber}
         >
           <Text style={styles.sendButtonText}>
@@ -79,7 +126,7 @@ const EnterPhoneNumberScreen = () => {
       )}
 
       {isCodeSent && (
-        <TouchableOpacity style={styles.completeButton}>
+        <TouchableOpacity style={styles.completeButton} onPress={smsVertification}>
           <Text style={styles.completeButtonText}>완료</Text>
         </TouchableOpacity>
       )}
