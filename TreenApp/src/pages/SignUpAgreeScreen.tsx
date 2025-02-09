@@ -6,8 +6,16 @@ import {
   StyleSheet,
 } from 'react-native';
 import AntIcon from 'react-native-vector-icons/AntDesign';
+import type { StackNavigationProp } from '@react-navigation/stack';
+import { signUpStackParamList } from '../types/signUpNavigationTypes';  // RootStackParamList를 정의하여 Stack Param List를 관리
 
-const SignUpAgreeScreen = () => {
+type SignUpAgreeScreenNavigationProp = StackNavigationProp<signUpStackParamList, 'SignUpAgree'>;
+
+interface Props {
+  navigation: SignUpAgreeScreenNavigationProp;
+}
+
+const SignUpAgreeScreen: React.FC<Props> = ({ navigation }) => {
   // 각 버튼의 클릭 상태를 관리하는 상태 배열
   const [checkedReasons, setCheckedReasons] = useState({
     all: false,
@@ -153,8 +161,11 @@ const SignUpAgreeScreen = () => {
           isAllChecked ? styles.submitButtonActive : styles.submitButtonInactive,
         ]}
         disabled={!isAllChecked}
+        onPress={() => isAllChecked && navigation.navigate('EnterPhoneNumber')}
       >
-        <Text style={styles.submitButtonText}>완료</Text>
+        <Text style={styles.submitButtonText}>
+          {isAllChecked ? '완료' : '필수 약관에 동의해주세요'}
+        </Text>
       </TouchableOpacity>
     </View>
   );

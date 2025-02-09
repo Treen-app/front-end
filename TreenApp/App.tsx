@@ -47,7 +47,7 @@ function App() {
   return (
     <NavigationContainer>
       {/* 회원가입 */}
-      <Stack.Navigator initialRouteName={isLoggedIn ? 'Home' : 'Login'}>
+      <Stack.Navigator initialRouteName={isLoggedIn ? 'Home' : 'SignUpAgree'}>
 
         <Stack.Screen 
           name="Login" 
