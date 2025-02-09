@@ -1,7 +1,8 @@
 export type signUpStackParamList = {
     SignUpAgree: undefined;
     EnterPhoneNumber: undefined;
-    NicknameCheck: { phoneNumber: string };
+    IDCheck: { phoneNumber: string };
+    NicknameCheck: undefined;
     EnterPassword: undefined;
     CompleteSignup: undefined;
   };

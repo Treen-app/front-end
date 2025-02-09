@@ -11,6 +11,7 @@ import {
 import axios from 'axios';
 import type { StackNavigationProp } from '@react-navigation/stack';
 import { signUpStackParamList } from '../types/signUpNavigationTypes';  // RootStackParamList를 정의하여 Stack Param List를 관리
+import Config from 'react-native-config';
 
 type SignUpAgreeScreenNavigationProp = StackNavigationProp<signUpStackParamList, 'SignUpAgree'>;
 
@@ -30,7 +31,7 @@ const EnterPhoneNumberScreen: React.FC<Props> = ({ navigation }) => {
         phoneNum: phoneNumber, // 여기에 실제 전화번호를 넣어주세요.
       };
 
-      const response = await axios.post('http://localhost:8080/api/auth/sms/send', requestPayload);
+      const response = await axios.post(`${Config.SERVER}/api/auth/sms/send`, requestPayload);
 
       if (response.status === 200) {
         setIsCodeSent(true);
@@ -54,7 +55,7 @@ const EnterPhoneNumberScreen: React.FC<Props> = ({ navigation }) => {
       if (response.data === 'SMS_CERTIFICATION_SUCCESS') {
         setIsCodeSent(true);
         console.log('인증번호 확인 성공');
-        navigation.navigate('NicknameCheck', {phoneNumber});
+        navigation.navigate('IDCheck', {phoneNumber});
       }
     } catch (error) {
       console.error('인증번호 확인 실패', error);

@@ -87,6 +87,15 @@ function App() {
             })}
           />
           {/* 아이디 입력 화면 */}
+          <Stack.Screen
+            name="IDCheck"
+            component={IDCheckScreen}
+            options={({ navigation }) => ({
+              title: '회원가입', 
+              headerLeft: () => <HeaderLeft navigation={navigation} />,
+              headerTitleAlign: 'center', 
+            })}
+          />
 
           {/* 닉네임 입력 화면 */}
           <Stack.Screen
