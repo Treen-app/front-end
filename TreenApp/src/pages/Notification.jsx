@@ -1,10 +1,10 @@
 import * as React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import UpBar from "../../components/MyPage/UpBar";
-import FrameComponent7 from "../../components/MyPage/FrameComponent7";
-import FrameComponent8 from "../../components/MyPage/FrameComponent8";
-import SmallTitle from "../../components/MyPage/SmallTitle";
-import FrameComponent from "../../components/MyPage/FrameComponent";
+import UpBar from "../components/MyPage/UpBar";
+import FrameComponent7 from "../components/MyPage/FrameComponent7";
+import FrameComponent8 from "../components/MyPage/FrameComponent8";
+import SmallTitle from "../components/MyPage/SmallTitle";
+import FrameComponent from "../components/MyPage/FrameComponent";
 
 const Notification = () => {
   return (

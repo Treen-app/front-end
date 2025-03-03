@@ -1,8 +1,8 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import FrameComponent5 from "../../components/MyPage/FrameComponent5";
-import UpBar from "../../components/MyPage/UpBar";
-import Frame6 from "../../components/MyPage/Frame6";
+import FrameComponent5 from "../components/MyPage/FrameComponent5";
+import UpBar from "../components/MyPage/UpBar";
+import Frame6 from "../components/MyPage/Frame6";
 
 const EditPhone = () => {
   return (

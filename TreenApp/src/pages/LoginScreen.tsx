@@ -1,63 +1,21 @@
 import React, { useState } from 'react';
-import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login';
+import { KakaoOAuthToken, login as kakaoLogin } from '@react-native-seoul/kakao-login';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Linking } from 'react-native';
-import queryString from 'query-string';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Config from 'react-native-config';
 
-
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const googleLoginUrl =
-  'https://accounts.google.com/o/oauth2/v2/auth?client_id=' +
-  Config.GOOGLE_CLIENT_ID +
-  '&redirect_uri=' +
-  Config.GOOGLE_REDIRECT_URI +
-  '&response_type=code' +
-  '&scope=email profile';
+    `https://accounts.google.com/o/oauth2/v2/auth?client_id=${Config.GOOGLE_CLIENT_ID}&redirect_uri=${Config.GOOGLE_REDIRECT_URI}&response_type=code&scope=email profile`;
 
-const naverLoginUrl =
-  'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' +
-  Config.NAVER_CLIENT_ID +
-  '&state=NAVER_STATE_STRING&redirect_uri=' +
-  Config.NAVER_REDIRECT_URI;
+  const naverLoginUrl =
+    `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${Config.NAVER_CLIENT_ID}&state=NAVER_STATE_STRING&redirect_uri=${Config.NAVER_REDIRECT_URI}`;
 
-const handleKakaoLogin = async () => {
-  try {
-    const token: KakaoOAuthToken = await login();
-    console.log('handleKakaoLogin', 'success', token);
-  } catch (error) {
-    console.error('Kakao login error:', error);
-    Alert.alert('로그인 실패', '카카오 로그인 중 오류가 발생했습니다.');
-  }
-};
-
-const handleGoogleLogin = async () => {
-  try {
-    await Linking.openURL(googleLoginUrl);
-  } catch (error) {
-    console.error('Google login error:', error);
-    Alert.alert('로그인 실패', '구글 로그인 중 오류가 발생했습니다.');
-  }
-};
-
-//  네이버 로그인 처리 함수
-const handleNaverLogin = async () => {
-  try {
-    await Linking.openURL(naverLoginUrl);
-  } catch (error) {
-    console.error('Google login error:', error);
-    Alert.alert('로그인 실패', '구글 로그인 중 오류가 발생했습니다.');
-  }
-};
-
-
-
-
-  // // 로그인 버튼 클릭 시 실행
   const handleLogin = async () => {
     if (!username || !password) {
       Alert.alert('로그인 실패', '아이디와 비밀번호를 입력해주세요.');
@@ -65,45 +23,81 @@ const handleNaverLogin = async () => {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/login', {
+      const response = await fetch(`${Config.API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
+        body: JSON.stringify({ username, password }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
+        await AsyncStorage.setItem('accessToken', data.token);
         Alert.alert('로그인 성공', `환영합니다, ${data.name}!`);
+        navigation.navigate('Home');
       } else {
-        const error = await response.json();
-        Alert.alert('로그인 실패', error.message || '아이디 또는 비밀번호가 잘못되었습니다.');
+        Alert.alert('로그인 실패', data.message || '아이디 또는 비밀번호가 잘못되었습니다.');
       }
     } catch (err) {
       Alert.alert('오류', '서버와의 연결에 문제가 발생했습니다.');
     }
   };
-  
-   return (
+
+  const handleKakaoLogin = async () => {
+    try {
+      const token: KakaoOAuthToken = await kakaoLogin();
+      const response = await fetch(`${Config.API_BASE_URL}/auth/kakao`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ accessToken: token.accessToken }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        await AsyncStorage.setItem('accessToken', data.token);
+        Alert.alert('카카오 로그인 성공', `환영합니다, ${data.name}!`);
+        navigation.navigate('Home');
+      } else {
+        Alert.alert('카카오 로그인 실패', data.message || '로그인에 실패했습니다.');
+      }
+    } catch (error) {
+      Alert.alert('로그인 실패', '카카오 로그인 중 오류가 발생했습니다.');
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await Linking.openURL(googleLoginUrl);
+    } catch (error) {
+      Alert.alert('로그인 실패', '구글 로그인 중 오류가 발생했습니다.');
+    }
+  };
+
+  const handleNaverLogin = async () => {
+    try {
+      await Linking.openURL(naverLoginUrl);
+    } catch (error) {
+      Alert.alert('로그인 실패', '네이버 로그인 중 오류가 발생했습니다.');
+    }
+  };
+
+  return (
     <View style={styles.container}>
       <TouchableOpacity>
-        <Icon name="arrow-back" size={24} color="black" style={{marginTop: 40}} />
+        <Icon name="arrow-back" size={24} color="black" style={{ marginTop: 40 }} />
       </TouchableOpacity>
       <Text style={styles.title}>
         <Text style={styles.greenText}>트린</Text>에 오신 것을{"\n"}환영합니다!
       </Text>
 
-      <Text style={styles.subtitle}>
-        로그인하여 트린의 모든 기능을 이용해보세요!
-      </Text>
+      <Text style={styles.subtitle}>로그인하여 트린의 모든 기능을 이용해보세요!</Text>
 
-      <TextInput 
-        style={styles.input} 
-        placeholder="아이디 입력" 
+      <TextInput
+        style={styles.input}
+        placeholder="아이디 입력"
         value={username}
         onChangeText={setUsername}
       />
@@ -130,34 +124,20 @@ const handleNaverLogin = async () => {
       <Text style={styles.snsText}>SNS 간편로그인</Text>
 
       <View style={styles.snsIconsContainer}>
-        {/* 카카오 로그인 버튼 */}
         <TouchableOpacity onPress={handleKakaoLogin}>
           <Image source={require('../img/kakaotalk.png')} style={styles.snsIcon} />
         </TouchableOpacity>
-        {/* 네이버 로그인 버튼 */}
         <TouchableOpacity onPress={handleNaverLogin}>
-          <Image
-            source={require('../img/naver.png')} style={styles.snsIcon}
-          />
+          <Image source={require('../img/naver.png')} style={styles.snsIcon} />
         </TouchableOpacity>
-        {/* 구글 로그인 버튼 */}
         <TouchableOpacity onPress={handleGoogleLogin}>
-          <Image
-            source={require('../img/google.png')} style={styles.googleIcon}
-          />
+          <Image source={require('../img/google.png')} style={styles.googleIcon} />
         </TouchableOpacity>
-        
-        {/* <View style={styles.mailIconContainer}>
-          <Icon 
-            name="mail-outline" 
-            color="white" 
-            size={25} 
-          />
-        </View> */}
       </View>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

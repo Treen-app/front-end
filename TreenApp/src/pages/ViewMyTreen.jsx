@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
-import UpBar from "../../components/MyPage/UpBar";
-import FrameComponent6 from "../../components/MyPage/FrameComponent6";
+import UpBar from "../components/MyPage/UpBar";
+import FrameComponent6 from "../components/MyPage/FrameComponent6";
 
 const ViewMyTreen = () => {
   return (

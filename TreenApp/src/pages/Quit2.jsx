@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
-import UpBar from "../../components/MyPage/UpBar";
-import ProcessBtn from "../../components/MyPage/ProcessBtn";
+import UpBar from "../components/MyPage/UpBar";
+import ProcessBtn from "../components/MyPage/ProcessBtn";
 
 const Quit2 = () => {
   return (

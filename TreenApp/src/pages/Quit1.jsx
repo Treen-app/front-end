@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
-import UpBar from "../../components/MyPage/UpBar";
-import CheckBoxBtn from "../../components/MyPage/CheckBoxBtn";
+import UpBar from "../components/MyPage/UpBar";
+import CheckBoxBtn from "../components/MyPage/CheckBoxBtn";
 
 const Quit1 = () => {
   return (

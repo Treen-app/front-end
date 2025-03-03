@@ -4,10 +4,13 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import type { StackNavigationProp } from '@react-navigation/stack';
-import { signUpStackParamList } from '../types/signUpNavigationTypes';  // RootStackParamList를 정의하여 Stack Param List를 관리
+import { signUpStackParamList } from '../types/signUpNavigationTypes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Config from 'react-native-config';
 
 type SignUpAgreeScreenNavigationProp = StackNavigationProp<signUpStackParamList, 'SignUpAgree'>;
 
@@ -16,21 +19,17 @@ interface Props {
 }
 
 const SignUpAgreeScreen: React.FC<Props> = ({ navigation }) => {
-  // 각 버튼의 클릭 상태를 관리하는 상태 배열
   const [checkedReasons, setCheckedReasons] = useState({
     all: false,
     privacy: false,
     features: false,
     trust: false,
     marketing: false,
-    other: false,
   });
 
-  // 개별 버튼 클릭 핸들러
   const handleButtonPress = (reason: keyof typeof checkedReasons) => {
     const updatedReasons = { ...checkedReasons };
-  
-    // "모두 동의" 버튼인 경우 모든 버튼을 토글
+
     if (reason === 'all') {
       const newState = !checkedReasons.all;
       (Object.keys(updatedReasons) as (keyof typeof updatedReasons)[]).forEach((key) => {
@@ -38,23 +37,54 @@ const SignUpAgreeScreen: React.FC<Props> = ({ navigation }) => {
       });
     } else {
       updatedReasons[reason] = !checkedReasons[reason];
-  
-      // 모든 버튼이 선택되었을 경우 "모두 동의"도 선택
+
       const allSelected = (Object.keys(updatedReasons) as (keyof typeof updatedReasons)[]).every(
         (key) => key === 'all' || updatedReasons[key]
       );
       updatedReasons.all = allSelected;
     }
-  
+
     setCheckedReasons(updatedReasons);
   };
-  
-  // 모든 항목 체크 여부 확인
+
   const isAllChecked = 
     checkedReasons.privacy &&
     checkedReasons.features &&
     checkedReasons.trust;
 
+  const handleAgreeSubmit = async () => {
+    if (!isAllChecked) {
+      Alert.alert('약관 동의 필요', '필수 약관에 동의해주세요.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${Config.API_BASE_URL}/auth/agree`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          privacy: checkedReasons.privacy,
+          features: checkedReasons.features,
+          trust: checkedReasons.trust,
+          marketing: checkedReasons.marketing,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        await AsyncStorage.setItem('userAgreement', JSON.stringify(checkedReasons));
+        Alert.alert('약관 동의 완료', '회원가입을 계속 진행해주세요.');
+        navigation.navigate('EnterPhoneNumber');
+      } else {
+        Alert.alert('동의 실패', data.message || '서버와의 문제로 동의가 완료되지 않았습니다.');
+      }
+    } catch (error) {
+      Alert.alert('오류', '서버와 연결할 수 없습니다.');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -161,7 +191,7 @@ const SignUpAgreeScreen: React.FC<Props> = ({ navigation }) => {
           isAllChecked ? styles.submitButtonActive : styles.submitButtonInactive,
         ]}
         disabled={!isAllChecked}
-        onPress={() => isAllChecked && navigation.navigate('EnterPhoneNumber')}
+        onPress={handleAgreeSubmit}
       >
         <Text style={styles.submitButtonText}>
           {isAllChecked ? '완료' : '필수 약관에 동의해주세요'}
