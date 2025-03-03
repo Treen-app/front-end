@@ -1,8 +1,8 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import Section from "../../components/MyPage/Section";
-import SettingBtn from "../../components/MyPage/SettingBtn";
-import UpBar from "../../components/MyPage/UpBar";
+import Section from "../components/MyPage/Section";
+import SettingBtn from "../components/MyPage/SettingBtn";
+import UpBar from "../components/MyPage/UpBar";
 
 const MyPageMain = () => {
   return (

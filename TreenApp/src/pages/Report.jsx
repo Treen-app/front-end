@@ -1,10 +1,10 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import UpBar from "../../components/MyPage/UpBar";
-import Frame4 from "../../components/MyPage/Frame4";
-import ProcessBtnVariant from "../../components/MyPage/ProcessBtnVariant";
+import UpBar from "../components/MyPage/UpBar";
+import Frame3 from "../components/MyPage/Frame3";
+import ProcessBtn from "../components/MyPage/ProcessBtn";
 
-const EditProfile = () => {
+const Report = () => {
   return (
     <View style={[styles.view, styles.viewFlexBox]}>
       <UpBar
@@ -13,22 +13,17 @@ const EditProfile = () => {
         showArrowIcon
         arrowIconHeight="unset"
         arrowIconMaxHeight="100%"
-        prop="프로필 변경"
-        textMarginLeft={-45.5}
+        prop="계정 신고하기"
+        textMarginLeft={-53.5}
         upBarPosition="relative"
         upBarTop="unset"
         upBarLeft="unset"
-        group187={require("../../img/Mypage/group-1871.svg")}
+        group187={require("../../img/Mypage/group-187.svg")}
         showGroupIcon
       />
       <View style={[styles.frame, styles.viewFlexBox]}>
-        <Frame4 />
-        <ProcessBtnVariant
-          prop="저장"
-          processBtnVariant3Position="relative"
-          processBtnVariant3Top="unset"
-          processBtnVariant3Left="unset"
-        />
+        <Frame3 />
+        <ProcessBtn property1="Default" prop="확인" />
       </View>
     </View>
   );
@@ -40,20 +35,19 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   frame: {
-    width: 337,
-    height: 689,
-    gap: 90,
+    alignSelf: "stretch",
+    height: 688,
+    gap: 206,
   },
   view: {
     backgroundColor: "#fff",
     flex: 1,
     width: "100%",
-    height: 852,
     justifyContent: "center",
-    paddingHorizontal: 28,
-    paddingVertical: 46,
-    gap: 25,
+    paddingHorizontal: 0,
+    paddingVertical: 44,
+    gap: 28,
   },
 });
 
-export default EditProfile;
+export default Report;

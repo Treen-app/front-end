@@ -1,7 +1,7 @@
 import * as React from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
-import UpBar from "../../components/MyPage/UpBar";
-import RectangleComponent1 from "../../components/MyPage/RectangleComponent1";
+import UpBar from "../components/MyPage/UpBar";
+import RectangleComponent1 from "../components/MyPage/RectangleComponent1";
 
 const ScrapList = () => {
   return (

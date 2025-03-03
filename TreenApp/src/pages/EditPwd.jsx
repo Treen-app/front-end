@@ -1,7 +1,7 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import UpBar from "../../components/MyPage/UpBar";
-import Frame5 from "../../components/MyPage/Frame5";
+import UpBar from "../components/MyPage/UpBar";
+import Frame5 from "../components/MyPage/Frame5";
 
 const EditPwd = () => {
   return (
