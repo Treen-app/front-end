@@ -26,12 +26,33 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kakao75e450226c8fd4dd19facc3577caeebb</string>
+			</array>
+		</dict>
+	</array>
+	<key>KAKAO_APP_KEY</key>
+	<string>75e450226c8fd4dd19facc3577caeebb</string>
+	<key>KAKAO_APP_SCHEME</key>
+	<string>kakao75e450226c8fd4dd19facc3577caeebb</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>kakao0123456789</string>
+		<string>kakaokompassauth</string>
+		<string>storykompassauth</string>
+		<string>kakaolink</string>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UILaunchStoryboardName</key>
@@ -50,12 +71,13 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-	<string>MaterialCommunityIcons.ttf</string>
-	<string>AntDesign.ttf</string>
-	<string>MaterialIcons.ttf</string>
-	<string>Entypo.ttf</string>
-	<string>SimpleLineIcons.ttf</string>
-	<string>Ionicons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>AntDesign.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>Feather.ttf</string>
 	</array>
 </dict>
 </plist>

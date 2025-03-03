@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, View, SectionList } from "react-native";
-import FrameComponent2 from "../../components/MyPage/FrameComponent2";
-import UpBar from "../../components/MyPage/UpBar";
-import Frame25Variant1 from "../../components/MyPage/Frame25Variant1";
+import FrameComponent2 from "../components/MyPage/FrameComponent2";
+import UpBar from "../components/MyPage/UpBar";
+import Frame25Variant1 from "../components/MyPage/Frame25Variant1";
 
 const ViewFollow = () => {
   const [frameSectionListData, setFrameSectionListData] = useState([]);

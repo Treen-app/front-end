@@ -1,10 +1,10 @@
 import * as React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import RectangleComponent1 from "../../components/MyPage/RectangleComponent1";
-import Header from "../../components/MyPage/Header";
-import ScoreInfo from "../../components/MyPage/ScoreInfo";
-import Frame25Variant from "../../components/MyPage/Frame25Variant";
-import GroupComponent from "../../components/MyPage/GroupComponent";
+import RectangleComponent1 from "../components/MyPage/RectangleComponent1";
+import Header from "../components/MyPage/Header";
+import ScoreInfo from "../components/MyPage/ScoreInfo";
+import Frame25Variant from "../components/MyPage/Frame25Variant";
+import GroupComponent from "../components/MyPage/GroupComponent";
 
 const Frame = () => {
   return (

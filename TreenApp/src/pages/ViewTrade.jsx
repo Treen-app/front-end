@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Image, StyleSheet, View } from "react-native";
 import Pagebtn from "../../img/Mypage/page-btn.svg";
-import ItemBtn from "../../components/MyPage/ItemBtn";
-import UpBar from "../../components/MyPage/UpBar";
-import Frame25Variant1 from "../../components/MyPage/Frame25Variant1";
+import ItemBtn from "../components/MyPage/ItemBtn";
+import UpBar from "../components/MyPage/UpBar";
+import Frame25Variant1 from "../components/MyPage/Frame25Variant1";
 
 const ViewTrade = () => {
   return (

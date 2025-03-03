@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
-import ProcessBtnVariant from "../../components/MyPage/ProcessBtnVariant";
-import UpBar from "../../components/MyPage/UpBar";
+import ProcessBtnVariant from "../components/MyPage/ProcessBtnVariant";
+import UpBar from "../components/MyPage/UpBar";
 
 const CompleteEditPhone = () => {
   return (

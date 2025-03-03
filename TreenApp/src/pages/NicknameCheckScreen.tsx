@@ -1,69 +1,86 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import type { StackNavigationProp } from '@react-navigation/stack';
+import { signUpStackParamList } from '../types/signUpNavigationTypes';  // RootStackParamList를 정의하여 Stack Param List를 관리
+import Config from 'react-native-config';
 
-const NicknameCheckScreen = () => {
-  const [userId, setUserId] = useState('');
-  const [isDuplicate, setIsDuplicate] = useState(null); // null: 초기 상태, true: 중복, false: 사용 가능
-  const [password, setPassword] = useState('');
-  const [isIdChecked, setIsIdChecked] = useState(false); // 아이디 확인이 완료되었는지 상태 관리
+type SignUpAgreeScreenNavigationProp = StackNavigationProp<signUpStackParamList, 'SignUpAgree'>;
+
+interface Props {
+  navigation: SignUpAgreeScreenNavigationProp;
+}
+
+const NicknameCheckScreen: React.FC<Props> = ({ navigation }) => {
+  const [userName, setUserName] = useState('');
+  const [isDuplicate, setIsDuplicate] = useState<boolean | null>(null); // 중복 확인 상태
+  const [isUserNameChecked, setIsUserNameChecked] = useState(false); // 아이디 확인 완료 여부
 
   const checkDuplicate = async () => {
     try {
-      // 서버에 아이디 중복 확인 요청 (API 예시)
-      const response = await fetch('https://example.com/api/check-duplicate', {
-        method: 'POST',
+      // 서버에 닉네임 중복 확인 요청
+      const response = await fetch(`${Config.SERVER}/api/auth/userName/isDuplicate/${userName}`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId }),
       });
-
-      const data = await response.json();
-      setIsDuplicate(data.isDuplicate);
-      setIsIdChecked(true); // 아이디 확인 완료
+  
+      if (!response.ok) {
+        throw new Error(`서버 응답 에러: ${response.status}`);
+      }
+  
+      // 서버 응답 데이터를 JSON으로 변환
+      const isDuplicate = await response.json();
+      console.log("isDuplicate response: " + isDuplicate);
+  
+      // 중복 여부를 상태에 저장
+      setIsDuplicate(isDuplicate); // true or false
+      setIsUserNameChecked(true); // 아이디 확인 완료
     } catch (error) {
       console.error('중복 확인 에러:', error);
     }
   };
+  
 
   return (
     <View style={styles.container}>
-      <Text style={styles.subtitle}>정보 입력</Text>
-      <Text style={styles.title}>
-        닉네임을 입력해주세요
-      </Text>
+      <Text style={styles.subtitle}>02 정보 입력</Text>
+      <Text style={styles.title}>닉네임을 입력해주세요</Text>
 
       <View style={styles.inputRow}>
         <TextInput
             style={[styles.input, { flex: 1 }]}
-            placeholder="아이디 입력"
-            value={userId}
-            onChangeText={setUserId}
+            placeholder="닉네임을 입력해주세요"
+            value={userName}
+            onChangeText={setUserName}
         />
         <TouchableOpacity
             style={[
                 styles.button,
                 {
-                  backgroundColor: isIdChecked && !isDuplicate ? '#B0B0B0' : '#04AD45', // 중복되지 않으면 회색
+                  backgroundColor: isUserNameChecked && !isDuplicate ? '#B0B0B0' : '#04AD45', // 중복되지 않으면 회색
                 },
               ]}
             onPress={checkDuplicate}
-            disabled={!userId.trim() || isIdChecked}// 아이디가 비어 있으면 버튼 비활성화
+            disabled={!userName.trim() || isUserNameChecked}// 아이디가 비어 있으면 버튼 비활성화
         >
             <Text style={styles.buttonText}>
-                {isIdChecked ? '확인 완료' : '중복 확인'}
+                {isUserNameChecked ? '확인 완료' : '중복 확인'}
             </Text>
         </TouchableOpacity>
-        {isDuplicate !== null && (
-            <Text style={isDuplicate ? styles.duplicateText : styles.availableText}>
-            {isDuplicate ? '이미 존재하는 닉네임입니다' : '멋진 닉네임이군요!'}
-            </Text>
-        )}
       </View>
+      {isDuplicate !== null && (
+          <Text style={isDuplicate ? styles.duplicateText : styles.availableText}>
+          {isDuplicate ? '이미 존재하는 닉네임입니다' : '멋진 닉네임이군요!'}
+          </Text>
+      )}
 
-      <TouchableOpacity style={styles.submitButton}>
-        <Text style={styles.submitButtonText}>완료</Text>
-      </TouchableOpacity>
+      { !isDuplicate &&(
+        <TouchableOpacity style={styles.submitButton} 
+        onPress={() => navigation.navigate('CompleteSignup')}>
+          <Text style={styles.submitButtonText}>완료</Text>
+        </TouchableOpacity>
+      )}
 
     </View>
   );
@@ -88,18 +105,18 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: '#F5F5F5',
-    borderRadius: 8,
+    borderRadius: 10,
     padding: 15,
     fontSize: 14,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   button: {
     backgroundColor: '#04AD45',
-    borderRadius: 8,
+    borderRadius: 10,
     paddingVertical: 15,
     paddingHorizontal: 20,
     marginLeft: 10,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   buttonText: {
     color: 'white',
@@ -119,9 +136,17 @@ const styles = StyleSheet.create({
     color: 'green',
     marginTop: 10,
   },
+  passwordRow: {
+    marginBottom: 10,
+  },
+  passwordError: {
+    color: '#04AD45',
+    fontSize: 12,
+    marginTop: 5,
+  },
   submitButton: {
     backgroundColor: '#04AD45',
-    borderRadius: 8,
+    borderRadius: 10,
     padding: 15,
     alignItems: 'center',
     marginTop: 30

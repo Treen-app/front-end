@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
-import UpBar from "../../components/MyPage/UpBar";
-import ProcessBtn from "../../components/MyPage/ProcessBtn";
-import ProcessBtnVariant from "../../components/MyPage/ProcessBtnVariant";
+import UpBar from "../components/MyPage/UpBar";
+import ProcessBtn from "../components/MyPage/ProcessBtn";
+import ProcessBtnVariant from "../components/MyPage/ProcessBtnVariant";
 
 const Quit3 = () => {
   return (

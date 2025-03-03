@@ -15,5 +15,7 @@
     "path": "assets/",
     "componentsPath": "/Users/hellograce3/Desktop/trin_FE/trin_FE/src/components",
     "screensPath": "/Users/hellograce3/Desktop/trin_FE/trin_FE/src/pages"
-  }
+  },
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.compile.nullAnalysis.mode": "automatic"
 }

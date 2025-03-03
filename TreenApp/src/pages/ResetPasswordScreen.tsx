@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: '#F5F5F5',
-    borderRadius: 8,
+    borderRadius: 10,
     padding: 15,
     fontSize: 14,
     marginBottom: 20,
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     backgroundColor: '#04AD45',
-    borderRadius: 8,
+    borderRadius: 10,
     padding: 15,
     alignItems: 'center',
     marginTop: 30
