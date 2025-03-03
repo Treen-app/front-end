@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, TextInput } from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
 
 interface SatisfactionModalProps {
   visible: boolean;
@@ -9,6 +10,7 @@ interface SatisfactionModalProps {
 const SatisfactionModal: React.FC<SatisfactionModalProps> = ({ visible, onClose }) => {
   const [selectedResponse, setSelectedResponse] = useState<null | keyof typeof responses>(null);
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
+  const [additionalFeedback, setAdditionalFeedback] = useState<string>(''); 
 
   const responses: {
     최고예요: string[];
@@ -81,6 +83,15 @@ const SatisfactionModal: React.FC<SatisfactionModalProps> = ({ visible, onClose 
                       </TouchableOpacity>
                     ))}
                     </View>
+                    {/* 주관식 입력란 */}
+                    <Text style={[styles.subtitle, { marginTop: 20 }]}>남기고 싶은 한 마디 (선택 응답)</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      placeholder="회원님과의 거래 경험을 구체적으로 작성해주시면 더 나은 서비스 제공에 참고하겠습니다. (최대 300자)"
+                      multiline={true}
+                      value={additionalFeedback}
+                      onChangeText={setAdditionalFeedback}
+                    />
                 </View>
                 )}
                 
@@ -88,6 +99,12 @@ const SatisfactionModal: React.FC<SatisfactionModalProps> = ({ visible, onClose 
                     <Text style={styles.closeButtonText}>후기 작성</Text>
                 </TouchableOpacity> 
             </View>
+
+            {/* 작성 취소 버튼 */}
+            {/* <TouchableOpacity onPress={onClose} style={styles.cancelButton}>
+                <Text style={styles.cancelText}>작성하지 않을게요</Text>
+                <Feather name="x-circle" size={10} style={{color: "#666666"}}></Feather>
+            </TouchableOpacity>  */}
         </View>
     </Modal>
   );
@@ -98,7 +115,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 15,
     paddingHorizontal: 24
   },
   buttonContainer: {
@@ -135,7 +152,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 14,
-    marginBottom: 20,
+    marginBottom: 15,
     color: "#767676",
   },
   keywords: {
@@ -145,7 +162,16 @@ const styles = StyleSheet.create({
   },
 
 
-
+  textInput: {
+    borderRadius: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 12,
+    width: '100%',
+    minHeight: 80,
+    fontSize: 12,
+    textAlignVertical: 'top', 
+    backgroundColor: "#F1F1F1",
+  },
 
 
   modalOverlay: {
@@ -153,6 +179,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)', // 반투명 배경
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
   },
   modalContainer: {
     width: '90%',
@@ -164,6 +191,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    position: 'relative',
   },
   modalMessage: {
     fontSize: 14,
@@ -182,9 +210,25 @@ const styles = StyleSheet.create({
   closeButtonText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 16,
     textAlign: 'center',
   },
+
+
+  // cancelButton: {
+  //   textAlign: 'right',
+  //   position: 'absolute',  // absolute로 위치를 조정
+  //   bottom: 20,            // 모달 오버레이의 하단에 20px 정도의 여백을 줌
+  //   right: 20,             // 모달 오버레이의 오른쪽 끝에 20px 여백
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   paddingVertical: 10,
+  //   paddingHorizontal: 15,
+  // },
+  // cancelText: {
+  //   color: '#666666',
+  //   fontSize: 10
+  // }
 });
 
 export default SatisfactionModal;
